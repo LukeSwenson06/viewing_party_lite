@@ -18,7 +18,7 @@ class UsersController < ApplicationController
       session[:user_id] = new_user.id
       redirect_to user_path(new_user.id)
     else
-      flash[:error] = 'Email address is blank/already in use.'
+      flash[:error] = new_user.errors.full_messages
       redirect_to register_path
     end
   end
@@ -30,6 +30,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:user_name, :email)
+    params.require(:user).permit(:user_name, :email, :password, :password_confirmation)
   end
 end
