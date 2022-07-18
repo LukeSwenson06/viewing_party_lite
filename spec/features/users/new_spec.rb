@@ -20,7 +20,7 @@ RSpec.describe 'New page', type: :feature do
     new_user = User.last
     expect(current_path).to eq("/users/#{new_user.id}")
   end
-  #
+
   it "will not error out if user_name is blank" do
     visit '/register'
     fill_in 'Username:', with: ''

@@ -1,0 +1,13 @@
+<% if flash.key? :error %>
+  <p><%= flash[:error] %></p>
+<% end %>
+
+<%= form_with model: @user do |f| %>
+  <%= f.label :email, 'Email:' %>
+  <%= f.text_field :email %>
+
+  <%= f.label :password, 'Password:' %>
+  <%= f.text_field :password %>
+
+  <%= f.submit 'Log in' %>
+<% end %>

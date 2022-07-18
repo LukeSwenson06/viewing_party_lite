@@ -55,4 +55,37 @@ RSpec.describe "Landing Page", type: :feature do
 
     expect(current_path).to eq user_path(users[0])
   end
+
+  it "has a link called Log in that takes the user to a log in page" do
+    user = User.create(user_name: 'Tester', email: 'test@gmail.com', password: 'test123' )
+    visit root_path
+
+    expect(page).to have_link("Log In")
+    click_link "Log In"
+
+    expect(current_path).to eq('/login')
+
+    fill_in 'Email:', with: 'test@gmail.com'
+    fill_in 'Password:', with: 'test123'
+    click_button 'Log in'
+
+    expect(current_path).to eq(user_path(user))
+  end
+
+  it "produces an error message when the user fills in incorrect credentials" do
+    user = User.create(user_name: 'Tester', email: 'test@gmail.com', password: 'test123' )
+    visit root_path
+
+    expect(page).to have_link("Log In")
+    click_link "Log In"
+
+    expect(current_path).to eq('/login')
+
+    fill_in 'Email:', with: 'test@gmail.com'
+    fill_in 'Password:', with: 'test145'
+    click_button 'Log in'
+
+    expect(current_path).to eq('/login')
+    expect(page).to have_content('Invalid Credentials')
+  end
 end
