@@ -6,8 +6,9 @@ RSpec.describe "User Dashboard", type: :feature do
   let!(:attendee_table_1) { Attendee.create(user_id: users[0].id, viewing_party_id: viewing_party.id)}
   let!(:attendee_table_2) { Attendee.create(user_id: users[1].id, viewing_party_id: viewing_party.id)}
   let!(:host_party) { ViewingParty.create(movie: 'Shazam', movie_id: 42, duration: 666, host_id: users[0].id, date: "Mon, 11 Jul 2022", start_time: "Sun, 02 Jan 2000 01:14:20 UTC +00:00") }
-  before :each do 
-    visit user_path(users[0])
+  before :each do
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(users[0])
+    visit dashboard_path
   end
 
   it "can display the users name at the top of the page", :vcr do
@@ -24,7 +25,7 @@ RSpec.describe "User Dashboard", type: :feature do
   end
 
   describe 'it shows all the viewing parties that the user has been invited to' do
-    
+
     xit 'displays the movie image', :vcr do
       within "#invited" do
         within "#party-#{viewing_party.id}" do

@@ -4,8 +4,13 @@ Rails.application.routes.draw do
   get '/register', to: 'users#new'
   get '/login', to: 'users#login_form'
   post '/login', to: 'users#login'
+  get '/dashboard', to: 'users#show'
 
-  resources :users, only: [:create, :show, :edit, :update, :index] do
+  # namespace :users do
+  #   patch  '/edit', to: 'users#edit'
+  # end
+
+  resources :users, only: %i[create edit update index] do
      resources :movies, only: %i[index show] do
        resources :viewing_partys, only: %i[new create]
      end

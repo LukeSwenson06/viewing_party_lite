@@ -36,28 +36,31 @@ RSpec.describe "Landing Page", type: :feature do
 
   end
 
-  it "has a list of existing users and links to that users dashboard" do
-    visit "/"
-
-    expect(page).to have_content("Existing Users")
-
-    within "#existing-users" do
-      expect(page).to have_content(users[0].user_name)
-      expect(page).to have_link(users[0].user_name)
-      expect(page).to have_content(users[1].user_name)
-      expect(page).to have_link(users[1].user_name)
-      expect(page).to have_content(users[2].user_name)
-      expect(page).to have_link(users[2].user_name)
-
-      click_link users[0].user_name
-
-    end
-
-    expect(current_path).to eq user_path(users[0])
-  end
+  # it "has a list of existing users and links to that users dashboard" do
+  #   visit "/"
+  #
+  #   expect(page).to have_content("Existing Users")
+  #
+  #   within "#existing-users" do
+  #     expect(page).to have_content(users[0].user_name)
+  #     expect(page).to have_link(users[0].user_name)
+  #     expect(page).to have_content(users[1].user_name)
+  #     expect(page).to have_link(users[1].user_name)
+  #     expect(page).to have_content(users[2].user_name)
+  #     expect(page).to have_link(users[2].user_name)
+  #
+  #     click_link users[0].user_name
+  #
+  #   end
+  #
+  #   expect(current_path).to eq user_path(users[0])
+  # end
 
   it "has a link called Log in that takes the user to a log in page" do
     user = User.create(user_name: 'Tester', email: 'test@gmail.com', password: 'test123' )
+
+  
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
     visit root_path
 
     expect(page).to have_link("Log In")
@@ -67,9 +70,9 @@ RSpec.describe "Landing Page", type: :feature do
 
     fill_in 'Email:', with: 'test@gmail.com'
     fill_in 'Password:', with: 'test123'
-    click_button 'Log in'
 
-    expect(current_path).to eq(user_path(user))
+    click_button 'Log in'
+    expect(current_path).to eq(dashboard_path)
   end
 
   it "produces an error message when the user fills in incorrect credentials" do

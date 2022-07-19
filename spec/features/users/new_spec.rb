@@ -18,7 +18,8 @@ RSpec.describe 'New page', type: :feature do
     fill_in 'Password Confirmation:', with: 'test123'
     click_button 'Create User'
     new_user = User.last
-    expect(current_path).to eq("/users/#{new_user.id}")
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(new_user)
+    expect(current_path).to eq(dashboard_path)
   end
 
   it "will not error out if user_name is blank" do
