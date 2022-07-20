@@ -6,11 +6,7 @@ Rails.application.routes.draw do
   post '/login', to: 'users#login'
   get '/dashboard', to: 'users#show'
 
-  # namespace :users do
-  #   patch  '/edit', to: 'users#edit'
-  # end
-
-  resources :users, only: %i[create edit update index] do
+  resources :users, only: %i[create update index] do
      resources :movies, only: %i[index show] do
        resources :viewing_partys, only: %i[new create]
      end

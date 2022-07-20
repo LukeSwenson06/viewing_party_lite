@@ -58,8 +58,6 @@ RSpec.describe "Landing Page", type: :feature do
 
   it "has a link called Log in that takes the user to a log in page" do
     user = User.create(user_name: 'Tester', email: 'test@gmail.com', password: 'test123' )
-
-  
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
     visit root_path
 
